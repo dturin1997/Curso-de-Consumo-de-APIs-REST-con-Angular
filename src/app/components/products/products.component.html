@@ -10,7 +10,7 @@
     <div *ngIf="productChosen">
       <button (click)="toggleProductDetail()">Close</button>
       <h1>{{ productChosen.title }}</h1>
-      <swiper [slidesPerView]="1">
+      <swiper #swiper [slidesPerView]="1">
         <ng-template swiperSlide *ngFor="let img of productChosen.images">
           <img [src]="img" alt="" width="100%" />
         </ng-template>

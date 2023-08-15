@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Product } from '../../models/product.model';
-
 import { StoreService } from '../../services/store.service';
 import { ProductsService } from '../../services/products.service';
+import { SwiperComponent } from 'swiper/angular';
 
 @Component({
   selector: 'app-products',
@@ -26,6 +25,8 @@ export class ProductsComponent implements OnInit {
     },
     description: '',
   };
+
+  @ViewChild('swiper', { static: false }) swiper?: SwiperComponent;
 
   constructor(
     private storeService: StoreService,
@@ -53,6 +54,7 @@ export class ProductsComponent implements OnInit {
     this.productsService.getProduct(id).subscribe((data) => {
       //console.log('product ', data);
       if (this.showProductDetail) {
+        this.swiper!.swiperRef.slideTo(0);
         this.productChosen = data;
         return;
       }
