@@ -29,6 +29,8 @@ export class ProductsComponent implements OnInit {
     },
     description: '',
   };
+  limit = 10;
+  offset = 0;
 
   @ViewChild('swiper', { static: false }) swiper?: SwiperComponent;
 
@@ -40,9 +42,15 @@ export class ProductsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.productsService.getProductsByPage(10, 0).subscribe((data) => {
+      this.products = data;
+      this.offset += this.limit;
+    });
+    /*
     this.productsService.getAllProducts().subscribe((data) => {
       this.products = data;
     });
+    */
   }
 
   onAddToShoppingCart(product: Product) {
@@ -104,5 +112,14 @@ export class ProductsComponent implements OnInit {
       this.products.splice(productIndex, 1);
       this.showProductDetail = false;
     });
+  }
+
+  loadMore() {
+    this.productsService
+      .getProductsByPage(this.limit, this.offset)
+      .subscribe((data) => {
+        this.products = this.products.concat(data);
+        this.offset += this.limit;
+      });
   }
 }
