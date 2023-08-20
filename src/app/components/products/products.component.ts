@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Product } from '../../models/product.model';
+import { CreateProductDTO, Product } from '../../models/product.model';
 import { StoreService } from '../../services/store.service';
 import { ProductsService } from '../../services/products.service';
 import { SwiperComponent } from 'swiper/angular';
@@ -60,6 +60,20 @@ export class ProductsComponent implements OnInit {
       }
       this.toggleProductDetail();
       this.productChosen = data;
+    });
+  }
+
+  createNewProduct() {
+    const product: CreateProductDTO = {
+      title: 'Lenovo ideapad',
+      description: 'Laptop Gaming Ultra XL',
+      images: [`https://picsum.photos/640/640?random=${Math.random()}`],
+      price: 2500,
+      categoryId: 2,
+    };
+    this.productsService.create(product).subscribe((data) => {
+      console.log('created', data);
+      this.products.unshift(data);
     });
   }
 }
