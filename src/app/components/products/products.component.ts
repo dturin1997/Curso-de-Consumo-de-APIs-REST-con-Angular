@@ -1,5 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { CreateProductDTO, Product } from '../../models/product.model';
+import {
+  CreateProductDTO,
+  Product,
+  UpdateProductDTO,
+} from '../../models/product.model';
 import { StoreService } from '../../services/store.service';
 import { ProductsService } from '../../services/products.service';
 import { SwiperComponent } from 'swiper/angular';
@@ -74,6 +78,20 @@ export class ProductsComponent implements OnInit {
     this.productsService.create(product).subscribe((data) => {
       console.log('created', data);
       this.products.unshift(data);
+    });
+  }
+
+  updateProduct() {
+    const changes: UpdateProductDTO = {
+      title: 'Nuevo Titulo',
+    };
+    const id = this.productChosen.id;
+    this.productsService.update(id, changes).subscribe((data) => {
+      console.log('updated', data);
+      const productIndex = this.products.findIndex(
+        (item) => item.id === this.productChosen.id
+      );
+      this.products[productIndex] = data;
     });
   }
 }
